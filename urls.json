@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "original_url": "1",
+    "short_url": 1
+  },
+  {
+    "original_url": "2",
+    "short_url": 2
+  }
+]
