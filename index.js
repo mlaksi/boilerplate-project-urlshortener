@@ -5,6 +5,10 @@ const app = express();
 const fs = require("fs");
 const exp = require("constants");
 
+const dns=require("dns");
+const urlparser=require("url");
+const { error } = require("console");
+
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
@@ -27,6 +31,11 @@ app.get("/api/hello", function (req, res) {
 app.post("/api/shorturl", (req, res) => {
   const original_url = req.body.url;
   console.log(original_url);
+
+  const dnslookup=dns.lookup(urlparser.parse(original_url).hostname,(err,address)=>{
+    if(!address){
+      res.json({error:"Invalid URL"});
+    }else{
 
   //OPEN JSON FILE
   fs.readFile("urls.json", (err, urls) => {
@@ -55,6 +64,10 @@ app.post("/api/shorturl", (req, res) => {
       //res.status(200).send("Added url to the improvised db");
     });
   });
+    }
+  })
+
+
 });
 
 app.get("/api/shorturl/:short", (req, res) => {
